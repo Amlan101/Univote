@@ -48,6 +48,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
 
     // Retrofit for HTTP Networking
     implementation(libs.retrofit)
@@ -57,6 +59,9 @@ dependencies {
 
     // JWT handling
     implementation(libs.jwtdecode)
+
+    // Secure token storage
+    implementation (libs.androidx.security.crypto)
 
     // Coroutines for handling asynchronous tasks
     implementation(libs.kotlinx.coroutines.core)
