@@ -2,17 +2,29 @@ package com.example.univote.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.univote.R
 import com.example.univote.databinding.ActivityLoginBinding
+import com.example.univote.network.ApiService
+import com.example.univote.network.LoginRequest
+import com.example.univote.network.RetrofitClient
+import com.example.univote.utils.TokenManager
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+
+    private val apiService by lazy { RetrofitClient.createService(ApiService::class.java) }
+    private val tokenManager = TokenManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +36,8 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.passwordEditText.text.toString()
 
             if(email.isNotEmpty() && password.isNotEmpty()){
-                // TODO: Add API call to authenticate and handle JWT
                 startActivity(Intent(this, MainActivity::class.java))
-                Snackbar.make(binding.btnLogin, "Login functionality to be implemented", Snackbar.LENGTH_SHORT).show()
+                loginUser(email, password)
             } else {
                 Snackbar.make(binding.btnLogin, "Please fill all the fields", Snackbar.LENGTH_SHORT).show()
             }
@@ -36,5 +47,27 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    /**
+     * Function to handle login functionality
+     */
+    private fun loginUser(email: String, password: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = apiService.login(LoginRequest(email, password))
+            withContext(Dispatchers.Main){
+                if(response.isSuccessful && response.body()!= null){
+                    // Store token using Token Manager
+                    tokenManager.saveToken(response.body()!!.token)
+                    // Navigate to main activity
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    finish()
+                } else {
+                    // Show error message
+                    Toast.makeText(this@LoginActivity, "Login failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
     }
 }

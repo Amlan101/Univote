@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.security.crypto.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,7 +62,7 @@ dependencies {
     implementation(libs.jwtdecode)
 
     // Secure token storage
-    implementation (libs.androidx.security.crypto)
+    implementation("androidx.security:security-crypto-ktx:1.1.0-alpha04")
 
     // Coroutines for handling asynchronous tasks
     implementation(libs.kotlinx.coroutines.core)
