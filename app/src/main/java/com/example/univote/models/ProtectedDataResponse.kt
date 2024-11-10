@@ -1,8 +1,10 @@
 package com.example.univote.models
 
+import java.io.Serializable
+
 data class ProtectedDataResponse(
-    val poll_id: String,
+    val pollId: String,
     val title: String,
     val options: List<Option>,
-    val total_votes: Int
-)
+    val totalVotes: Int
+): Serializable

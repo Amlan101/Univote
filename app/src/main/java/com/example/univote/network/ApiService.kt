@@ -7,10 +7,12 @@ import com.example.univote.models.ProtectedDataResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 // Data classes for request and response payloads
@@ -36,7 +38,6 @@ interface ApiService {
     @GET("polls/{poll_id}")
     fun getPollDetails(@Path("poll_id") pollId: String): Call<PollDetailsResponse>
 
-    // ApiService.kt
     @POST("polls")
     fun createPoll(@Body request: CreatePollRequest): Call<Void>
 
@@ -46,4 +47,14 @@ interface ApiService {
         @Field("poll_id") pollId: String,
         @Field("option_id") optionId: String
     ): Call<Void>
+
+
+    // Endpoint to deactivate a poll
+    @PUT("polls/{poll_id}/deactivate")
+    fun deactivatePoll(@Path("poll_id") pollId: String): Call<Void>
+
+    // Endpoint to delete a poll
+    @DELETE("polls/{poll_id}")
+    fun deletePoll(@Path("poll_id") pollId: String): Call<Void>
+
 }

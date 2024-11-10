@@ -16,6 +16,12 @@
         android:theme="@style/Theme.UniVote"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ResultsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PollManagementActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.CreatePollActivity"
             android:exported="false" />
         <activity
