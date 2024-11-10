@@ -30,14 +30,14 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.registerBtn.setOnClickListener {
-            val name = binding.nameEditText.text.toString()
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
+            val name = binding.nameEditText.text.toString().trim()
+            val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passwordEditText.text.toString().trim()
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
+            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
                 registerUser(name, email, password)
             } else {
-                Snackbar.make(binding.registerBtn, "Please fill all fields", Snackbar.LENGTH_SHORT).show()
+                Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
             }
         }
     }

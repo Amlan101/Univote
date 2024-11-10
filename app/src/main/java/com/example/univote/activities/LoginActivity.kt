@@ -3,17 +3,13 @@ package com.example.univote.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.univote.R
+import com.auth0.android.jwt.JWT
 import com.example.univote.databinding.ActivityLoginBinding
 import com.example.univote.network.ApiService
 import com.example.univote.network.LoginRequest
 import com.example.univote.network.RetrofitClient
 import com.example.univote.utils.TokenManager
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,14 +28,13 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnLogin.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
+            val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passwordEditText.text.toString().trim()
 
             if(email.isNotEmpty() && password.isNotEmpty()){
-                startActivity(Intent(this, MainActivity::class.java))
                 loginUser(email, password)
             } else {
-                Snackbar.make(binding.btnLogin, "Please fill all the fields", Snackbar.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -59,8 +54,12 @@ class LoginActivity : AppCompatActivity() {
                 if(response.isSuccessful && response.body()!= null){
                     // Store token using Token Manager
                     tokenManager.saveToken(response.body()!!.token)
-                    // Navigate to main activity
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    // Redirect based on user role
+                    if (isAdmin(response.body()!!.token)) {
+                        startActivity(Intent(this@LoginActivity, AdminDashboardActivity::class.java))
+                    } else {
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    }
                     finish()
                 } else {
                     // Show error message
@@ -69,5 +68,18 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun isAdmin(token: String): Boolean {
+        try {
+            // Decode the JWT token
+            val jwt = JWT(token)
+            // Check for the "is_admin" claim
+            val isAdminClaim = jwt.getClaim("is_admin").asBoolean()
+            return isAdminClaim == true
+        } catch (e: Exception){
+            e.printStackTrace()
+            return false
+        }
     }
 }

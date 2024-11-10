@@ -1,10 +1,14 @@
 package com.example.univote.network
 
+import com.example.univote.models.CreatePollRequest
 import com.example.univote.models.Poll
+import com.example.univote.models.PollDetailsResponse
 import com.example.univote.models.ProtectedDataResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -29,4 +33,17 @@ interface ApiService {
     @GET("polls")
     fun getActivePolls(): Call<List<Poll>>
 
+    @GET("polls/{poll_id}")
+    fun getPollDetails(@Path("poll_id") pollId: String): Call<PollDetailsResponse>
+
+    // ApiService.kt
+    @POST("polls")
+    fun createPoll(@Body request: CreatePollRequest): Call<Void>
+
+    @POST("vote")
+    @FormUrlEncoded
+    fun castVote(
+        @Field("poll_id") pollId: String,
+        @Field("option_id") optionId: String
+    ): Call<Void>
 }

@@ -6,8 +6,3 @@ data class ProtectedDataResponse(
     val options: List<Option>,
     val total_votes: Int
 )
-
-data class Option(
-    val option: String,
-    val votes: Int
-)

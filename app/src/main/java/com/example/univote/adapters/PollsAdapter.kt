@@ -17,6 +17,7 @@ class PollsAdapter(
     {
         fun bind(poll: Poll){
             binding.pollTitleTextView.text = poll.title
+            binding.pollStatusTextView.text = if (poll.isActive) "Ongoing" else "Inactive"
             binding.root.setOnClickListener{
                 onPollClick(poll)
             }
@@ -40,7 +41,7 @@ class PollsAdapter(
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return polls.size
     }
 
 }
