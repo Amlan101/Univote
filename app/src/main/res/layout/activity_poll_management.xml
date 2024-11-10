@@ -33,17 +33,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_poll_management"/>
 
-    <TextView
-        android:id="@+id/emptyStateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No polls available"
-        android:textSize="18sp"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="visible"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+ </androidx.constraintlayout.widget.ConstraintLayout>

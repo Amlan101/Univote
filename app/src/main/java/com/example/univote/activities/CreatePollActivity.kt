@@ -53,7 +53,6 @@ class CreatePollActivity : AppCompatActivity() {
         apiService.createPoll(pollRequest).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    TODO("Check whether this is actually creating a poll in DB using apiService")
                     Toast.makeText(this@CreatePollActivity, "Poll created successfully!", Toast.LENGTH_SHORT).show()
                     finish()
                 } else {

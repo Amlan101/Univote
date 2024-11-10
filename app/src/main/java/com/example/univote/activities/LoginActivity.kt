@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
                     if (isAdmin(response.body()!!.token)) {
                         startActivity(Intent(this@LoginActivity, AdminDashboardActivity::class.java))
                     } else {
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        startActivity(Intent(this@LoginActivity, PollsActivity::class.java))
                     }
                     finish()
                 } else {

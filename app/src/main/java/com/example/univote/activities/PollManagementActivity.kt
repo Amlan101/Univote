@@ -94,7 +94,6 @@ class PollManagementActivity : AppCompatActivity() {
         })
     }
 
-
     private fun viewResults(pollId: String) {
         apiService.getPollResults(pollId).enqueue(object : Callback<ProtectedDataResponse> {
             override fun onResponse(call: Call<ProtectedDataResponse>, response: Response<ProtectedDataResponse>) {
